@@ -2,17 +2,28 @@ const express = require('express');
 
 const router = express.Router(); 
 
-const firebase = require("firebase/firestore/lite"); 
+const firestore = require("firebase/firestore"); 
 
-const db = firebase.getFirestore(); 
-//reference to the blogpost collection created on firebase web 
-const blogposts = db.collection("blogpost"); 
+const db = firestore.getFirestore(); 
 
 router.get('/', (req, res) =>{
-    res.send(`
-    <h1> All Articles</h1>
-    <p> Articles coming soon...firebase setup necessary</p>
-    `); 
+    //blogposts is a function
+    const blogposts = firestore.getDocs(firestore.collection(db, "blogpost")); 
+
+    const blogPostsArray = []
+
+    blogposts //therefore we can call it asynchonously 
+        .then((response) => {
+            //we can put a console log here for testing 
+            response.forEach((doc) => {
+                blogPostsArray.push(doc.data()); 
+            })
+            return res.send(blogPostsArray); 
+        })
+        .catch(function (error) {
+            console.log("Error: ", error); 
+            return res.send(error); 
+        });
 }); 
 
 module.exports = router; 
