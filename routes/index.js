@@ -8,7 +8,7 @@ const db = firestore.getFirestore();
 
 router.get('/', (req, res) =>{
     //blogposts is a function
-    const blogposts = firestore.getDocs(firestore.collection(db, "blogpost")); 
+    const blogposts = firestore.getDocs(firestore.collection(db, "blogposts")); 
 
     const blogPostsArray = []
 

@@ -16,19 +16,19 @@ router.get('/', (req, res) =>{
 
 router.get('/:id', (req, res) =>{
     const postId = req.params.id; 
-    const blogpost = firestore.getDoc(firestore.doc(db, "blogpost", postId)); 
+    const blogpost = firestore.getDoc(firestore.doc(db, "blogposts", postId)); 
 
-    blogpost.then((response) => {
-        const post = response.data(); 
-        if(post) {
-            res.send(post); 
-        } else {
-            return res.send("No document!"); 
-        }
-        
-    }).catch((error) => {
-        res.send("No doc...error: ", error); 
-    })
+    blogpost
+        .then((response) => {
+            const post = response.data(); 
+            if(post) {
+                res.send(post); 
+            } else {
+                return res.send("No document!"); 
+            }  
+        }).catch((error) => {
+            res.send("No doc...error: ", error); 
+        })
 }); 
 
 module.exports = router; 
